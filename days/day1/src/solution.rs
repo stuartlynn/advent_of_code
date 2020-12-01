@@ -2,6 +2,7 @@ extern crate csv;
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+/// Loads the data from the file and returns a Vec<i32>
 pub fn load_data()-> Vec<i32>{
     let mut reader = csv::Reader::from_path("data/day_1/input").expect("could not load input file");
     reader.deserialize().map(|result| {
@@ -11,6 +12,13 @@ pub fn load_data()-> Vec<i32>{
     }).collect()
 }
 
+/// For a hashset and a target value, returns the two entries that add up to that target or None
+///
+/// # Arguments 
+/// 
+/// * 'data' - a hashset with the list of numbers we want to find a match for
+/// * 'target' - the number we want to find a pair to add to 
+/// 
 pub fn find_pair_sums_to(data: &HashSet<i32>, target: i32)->Option<[i32;2]>{
     for datum in data{
         let looking_for = target - datum;
@@ -21,11 +29,13 @@ pub fn find_pair_sums_to(data: &HashSet<i32>, target: i32)->Option<[i32;2]>{
     None
 }
 
-pub fn find_match2(data: &HashSet<i32>, target: i32)->Option<[i32;2]>{
+/// Get the solution for 2 values
+fn find_match2(data: &HashSet<i32>, target: i32)->Option<[i32;2]>{
     find_pair_sums_to(data, target)
 }
 
-pub fn find_match3(data: &HashSet<i32>, target: i32)->Option<[i32;3]>{
+/// Get the solution for 3 values
+fn find_match3(data: &HashSet<i32>, target: i32)->Option<[i32;3]>{
     for num1 in data.into_iter(){
         let remainder = target - num1;
         match find_pair_sums_to(data,remainder){
@@ -36,7 +46,8 @@ pub fn find_match3(data: &HashSet<i32>, target: i32)->Option<[i32;3]>{
     return None
 }
 
-pub fn run_problem_1(){
+/// Run all the problems and print the results
+pub fn run(){
     let data = load_data();
     let hashset : HashSet<i32> = HashSet::from_iter(data.iter().cloned());
     let matches2 = find_match2(&hashset, 2020);
@@ -59,3 +70,4 @@ pub fn run_problem_1(){
         None => println!("No matches found") 
     }
 }
+

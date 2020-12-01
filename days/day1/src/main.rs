@@ -1,8 +1,8 @@
-mod problem1;
+mod solution;
 
-use problem1::run_problem_1;
+use solution::run;
 
 fn main() -> Result<(),()>{
-    run_problem_1();
+    run();
     Ok(())
 }
