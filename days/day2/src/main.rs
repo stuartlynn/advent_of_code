@@ -9,6 +9,22 @@ struct Constraint{
     letter: char
 }
 
+
+impl Constraint{
+    
+    pub fn is_valid(&self,password:&String)->bool{
+    let letter_count = password.chars().filter(|c| *c==self.letter).count();
+    letter_count >=self.min  && letter_count<= self.max
+    }
+
+    pub fn is_valid_new(&self, password : &String)->bool{
+        let first_position = password.chars().nth(self.min-1).expect("String too short");
+        let second_position = password.chars().nth(self.max-1).expect("String too short");
+        (first_position == self.letter) ^ (second_position == self.letter)
+    }
+}
+
+/// This could be made better with parse_display
 fn parse_constraint(line:&String)->Constraint{
     let segments: Vec<&str> = line.split(":").collect();
     let constraint_string = segments[0]; 
@@ -48,34 +64,23 @@ fn read_file()->(Vec<Constraint>,Vec<String>){
     return (constraints,passwords)
 }
 
-fn is_valid(constraint:&Constraint,password:&String)->bool{
-   let letter_count = password.chars().filter(|c| *c==constraint.letter).count();
-   letter_count >=constraint.min  && letter_count<= constraint.max
-}
-
-fn is_valid_new(constraint : &Constraint, password : &String)->bool{
-    let first_position = password.chars().nth(constraint.min-1).expect("String too short");
-    let second_position = password.chars().nth(constraint.max-1).expect("String too short");
-     (first_position == constraint.letter) ^ (second_position == constraint.letter)
-}
     
 fn main() {
     println!("Hello, world!");
-    let test:String = "1-3 b: cdefg".into();
-
-    assert!(!is_valid(&Constraint{letter:'a', min:1, max:2}, &String::from("bcde")), "too few failed");
-    assert!(is_valid(&Constraint{letter:'a', min:1, max:2}, &String::from("baae")), "is valid failed");
-    assert!(!is_valid(&Constraint{letter:'a', min:1, max:2}, &String::from("aaae")), "to many failed");
+    let test_constraint = Constraint{letter:'a', min:1, max:2};
+    assert!(! test_constraint.is_valid(&String::from("bcde")), "too few failed");
+    assert!( test_constraint.is_valid(&String::from("baae")), "is valid failed");
+    assert!(!test_constraint.is_valid(&String::from("aaae")), "to many failed");
 
     let (constraints,passwords)= read_file();
     assert_eq!(constraints.len(), passwords.len(),"constraint and password sizes don't match");
     let mut valid_count_1 = 0;
     let mut valid_count_2 = 0;
     for (constraint, password) in constraints.iter().zip(passwords.iter()){
-        if is_valid(constraint, password){
+        if constraint.is_valid(password){
             valid_count_1 +=1;
         }
-        if is_valid_new(constraint, password){
+        if constraint.is_valid_new( password){
             valid_count_2 +=1;
         }
     }
