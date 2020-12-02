@@ -1,14 +1,16 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader,Error};
 use std::path::Path;
+use parse_display::{Display,FromStr};
 
-#[derive(Debug)]
+
+#[derive(Debug, Display,FromStr)]
+#[display("{min}-{max} {letter}")]
 struct Constraint{
     min: usize,
     max: usize,
     letter: char
 }
-
 
 impl Constraint{
     
@@ -24,22 +26,11 @@ impl Constraint{
     }
 }
 
-/// This could be made better with parse_display
 fn parse_constraint(line:&String)->Constraint{
     let segments: Vec<&str> = line.split(":").collect();
     let constraint_string = segments[0]; 
-    let letter = constraint_string.chars().last().unwrap();
-    let range_string : Vec<&str> = constraint_string.split_ascii_whitespace().collect();
-    let range_string = range_string[0];
-    let range_string : Vec<&str>= range_string.split("-").collect();
-    let min :usize= range_string[0].parse().unwrap();
-    let max :usize= range_string[1].parse().unwrap();
-
-    Constraint{
-        min,
-        max,
-        letter
-    }
+    let constraint: Constraint  = constraint_string.parse().unwrap();
+    constraint
 }
 
 fn parse_password(line:&String)->String{
