@@ -56,16 +56,9 @@ fn is_valid(constraint:&Constraint,password:&String)->bool{
 fn is_valid_new(constraint : &Constraint, password : &String)->bool{
     let first_position = password.chars().nth(constraint.min-1).expect("String too short");
     let second_position = password.chars().nth(constraint.max-1).expect("String too short");
-    let mut match_count = 0;
-    if first_position == constraint.letter{
-        match_count+=1;
-    } 
-    
-    if second_position == constraint.letter{
-        match_count+=1;
-    }
-    match_count==1
+     (first_position == constraint.letter) ^ (second_position == constraint.letter)
 }
+    
 fn main() {
     println!("Hello, world!");
     let test:String = "1-3 b: cdefg".into();
