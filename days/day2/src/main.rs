@@ -15,8 +15,8 @@ struct Constraint{
 impl Constraint{
     
     pub fn is_valid(&self,password:&String)->bool{
-    let letter_count = password.chars().filter(|c| *c==self.letter).count();
-    letter_count >=self.min  && letter_count<= self.max
+        let letter_count = password.chars().filter(|c| *c==self.letter).count();
+        letter_count >=self.min  && letter_count<= self.max
     }
 
     pub fn is_valid_new(&self, password : &String)->bool{

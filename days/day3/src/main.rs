@@ -7,6 +7,8 @@ enum SpaceType{
     Space
 }
 
+
+
 struct Map{
     layout : Vec<Vec<SpaceType>>,
     no_cols: usize,
