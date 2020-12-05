@@ -41,11 +41,11 @@ fn read_data()->Vec<Ticket>{
 
 fn main() {
     let tickets = read_data();
-    let mut ticket_nos:Vec<usize> = tickets.iter().map(|t| t.no).collect();
+    let ticket_nos:Vec<usize> = tickets.iter().map(|t| t.no).collect();
     let min = ticket_nos.iter().min().unwrap();
     let max = ticket_nos.iter().max().unwrap();
 
-    for i in (*min..*max){
+    for i in *min..*max{
         if !ticket_nos.contains(&i) && (ticket_nos.contains(&(i+1)) && ticket_nos.contains(&(i-1))) {
             println!("missing {}",i);
         }
