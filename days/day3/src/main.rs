@@ -7,8 +7,6 @@ enum SpaceType{
     Space
 }
 
-
-
 struct Map{
     layout : Vec<Vec<SpaceType>>,
     no_cols: usize,
@@ -79,7 +77,7 @@ impl Strategy{
 }
 
 fn main() {
-    let map = Map::load_from_file("data/day3/input");
+    let map = Map::load_from_file("data/day_3/input");
     println!("loaded map with, {} rows and {} cols", map.no_rows, map.no_cols);
     assert_eq!(map.at(0,0).unwrap(), &SpaceType::Space, "First square in row 1 should be space but isnt");
     assert_eq!(map.at(0,2).unwrap(), &SpaceType::Tree, "First square in row 3 should be tree but isnt");

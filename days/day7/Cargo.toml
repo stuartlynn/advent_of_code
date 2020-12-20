@@ -1,5 +1,5 @@
 [package]
-name = "day4"
+name = "day7"
 version = "0.1.0"
 authors = ["Stuart Lynn <stuart.lynn@gmail.com>"]
 edition = "2018"
@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 regex ="1.4.2"
+lazy_static="1.4.0"
